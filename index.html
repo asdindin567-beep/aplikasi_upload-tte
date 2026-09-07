@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portal Unggah Dokumen - TTE UM Kendari</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen flex flex-col justify-between antialiased">
+
+  <header class="border-b border-zinc-800/80 bg-zinc-900/80 backdrop-blur-md sticky top-0 z-50 py-3 md:py-4 shadow-md">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-10 flex items-center justify-between">
+      <div class="flex items-center space-x-3 sm:space-x-4">
+        <div class="p-1.5 sm:p-2 bg-zinc-800 border border-zinc-700/80 rounded-xl sm:rounded-2xl shadow-sm flex items-center justify-center shrink-0">
+          <img src="images.jpg" alt="Logo UM Kendari" class="h-8 sm:h-10 md:h-12 w-auto object-contain rounded-lg sm:rounded-xl">
+        </div>
+        <div>
+          <h1 class="font-extrabold text-sm sm:text-base md:text-xl leading-tight bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent">
+            Program Studi Teknik Pertambangan UM Kendari
+          </h1>
+          <p class="text-[10px] sm:text-xs text-orange-400/90 font-semibold tracking-wide mt-0.5">Portal Unggah Dokumen TTE</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-[800px] w-full mx-auto p-4 sm:p-6 md:p-10 my-auto flex items-center justify-center">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 shadow-xl space-y-5 sm:space-y-6 w-full">
+      <div class="text-center space-y-1.5 sm:space-y-2">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-orange-500/10 border border-orange-500/20 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto text-orange-400 shadow-sm">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12"></path></svg>
+        </div>
+        <h2 class="text-lg sm:text-xl font-bold text-zinc-100">Unggah Dokumen PDF</h2>
+        <p class="text-[11px] sm:text-xs text-zinc-400 max-w-md mx-auto leading-relaxed">
+          Silakan unggah berkas surat atau dokumen resmi Anda untuk diproses pada aplikasi Tanda Tangan Elektronik.
+        </p>
+      </div>
+
+      <form id="upload-form" class="space-y-5 sm:space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+          <div>
+            <label class="block text-xs font-bold text-zinc-300 mb-1.5">Nama Pengirim / Pemohon</label>
+            <input type="text" id="uploader-name" required placeholder="Contoh: Dr. Ir. Ahmad, M.T." class="w-full bg-zinc-950/60 border border-zinc-800 text-xs rounded-xl p-3 text-zinc-200 placeholder-zinc-500 focus:bg-zinc-950 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-zinc-300 mb-1.5">Kategori Dokumen</label>
+            <select id="doc-category" class="w-full bg-zinc-950/60 border border-zinc-800 text-xs rounded-xl p-3 text-zinc-200 focus:bg-zinc-950 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none">
+              <option value="Surat Tugas" class="bg-zinc-900 text-zinc-200">Surat Tugas</option>
+              <option value="Surat Keputusan (SK)" class="bg-zinc-900 text-zinc-200">Surat Keputusan (SK)</option>
+              <option value="Nota Dinas" class="bg-zinc-900 text-zinc-200">Nota Dinas</option>
+              <option value="Dokumen Akademik" class="bg-zinc-900 text-zinc-200">Dokumen Akademik</option>
+              <option value="Lainnya" class="bg-zinc-900 text-zinc-200">Lainnya</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-zinc-300 mb-1.5">Berkas PDF</label>
+          <label id="drop-zone" class="flex flex-col items-center justify-center w-full min-h-[160px] sm:h-48 border-2 border-dashed border-zinc-800 hover:border-orange-500 rounded-xl sm:rounded-2xl cursor-pointer bg-zinc-950/40 hover:bg-orange-500/5 transition-all duration-300 relative p-4">
+            <div class="flex flex-col items-center justify-center text-center" id="upload-placeholder">
+              <div class="p-2.5 sm:p-3 bg-zinc-900 border border-zinc-800 rounded-xl sm:rounded-2xl mb-2 text-orange-400 shadow-sm">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+              </div>
+              <p class="text-xs text-zinc-200 font-semibold leading-normal">
+                <span class="hidden sm:inline">Tarik & Lepas berkas di sini, atau </span>
+                <span class="text-orange-400 underline hover:text-orange-300">Pilih Berkas PDF</span>
+              </p>
+              <p class="text-[10px] sm:text-[11px] text-zinc-500 mt-1">Format PDF (Maksimal 20MB)</p>
+            </div>
+
+            <div id="file-info" class="hidden flex flex-col items-center justify-center text-center w-full">
+              <div class="p-2.5 sm:p-3 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-xl sm:rounded-2xl mb-2 shadow-sm">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <p id="file-name" class="text-xs font-bold text-zinc-200 break-all max-w-[250px] sm:max-w-xs md:max-w-md"></p>
+              <p id="file-size" class="text-[10px] text-zinc-400 mt-0.5 font-medium"></p>
+              <span class="mt-2 text-[10px] sm:text-[11px] text-orange-400 font-semibold underline hover:text-orange-300">Klik untuk mengganti berkas</span>
+            </div>
+
+            <input type="file" id="pdf-input" accept="application/pdf" class="hidden" required />
+          </label>
+        </div>
+
+        <div id="progress-container" class="hidden space-y-1.5">
+          <div class="flex justify-between text-xs font-semibold text-zinc-400">
+            <span>Mengunggah berkas...</span>
+            <span id="progress-text" class="text-orange-400">0%</span>
+          </div>
+          <div class="w-full bg-zinc-950 h-2 rounded-full overflow-hidden border border-zinc-800">
+            <div id="progress-bar" class="bg-gradient-to-r from-orange-500 to-amber-500 h-full w-0 transition-all duration-200"></div>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-submit" class="w-full bg-orange-600 hover:bg-orange-500 active:scale-[0.99] text-white font-bold text-xs sm:text-sm py-3 sm:py-3.5 px-6 rounded-xl shadow-lg shadow-orange-950/40 transition-all flex items-center justify-center gap-2">
+          <span>Unggah & Buka di Editor TTE</span>
+          <svg class="w-4 h-4 text-orange-100 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="py-3.5 sm:py-4 text-center text-[11px] sm:text-xs text-zinc-500 border-t border-zinc-800/60 bg-zinc-900 px-4">
+    © UM Kendari - Sistem Tanda Tangan Elektronik
+  </footer>
+
+<script>
+  const pdfInput = document.getElementById('pdf-input');
+  const uploadForm = document.getElementById('upload-form');
+  const placeholder = document.getElementById('upload-placeholder');
+  const fileInfo = document.getElementById('file-info');
+  const fileNameDisplay = document.getElementById('file-name');
+  const fileSizeDisplay = document.getElementById('file-size');
+  const progressContainer = document.getElementById('progress-container');
+  const progressBar = document.getElementById('progress-bar');
+  const progressText = document.getElementById('progress-text');
+  const btnSubmit = document.getElementById('btn-submit');
+
+  // Drag and Drop Event Handling
+  const dropZone = document.getElementById('drop-zone');
+
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  dropZone.addEventListener('drop', (e) => {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    if (files.length > 0) {
+      pdfInput.files = files;
+      handleFile(files[0]);
+    }
+  });
+
+  pdfInput.addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+      handleFile(e.target.files[0]);
+    }
+  });
+
+  function handleFile(file) {
+    if (file.type !== "application/pdf") {
+      alert("Mohon unggah berkas berformat PDF!");
+      pdfInput.value = "";
+      return;
+    }
+
+    // Batasi ukuran file max 10MB agar tidak melebihi kuota LocalStorage browser (5-10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      alert("Ukuran berkas terlalu besar! Maksimal berkas adalah 10MB.");
+      pdfInput.value = "";
+      return;
+    }
+
+    fileNameDisplay.textContent = file.name;
+    fileSizeDisplay.textContent = (file.size / (1024 * 1024)).toFixed(2) + " MB";
+    placeholder.classList.add('hidden');
+    fileInfo.classList.remove('hidden');
+  }
+
+  uploadForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const file = pdfInput.files[0];
+    const uploaderName = document.getElementById('uploader-name').value.trim();
+    const docCategory = document.getElementById('doc-category').value;
+
+    if (!file) {
+      alert("Pilih atau jatuhkan berkas PDF terlebih dahulu!");
+      return;
+    }
+
+    btnSubmit.disabled = true;
+    progressContainer.classList.remove('hidden');
+
+    const reader = new FileReader();
+
+    // Pantau Progress Pembacaan File
+    reader.onprogress = function(evt) {
+      if (evt.lengthComputable) {
+        const percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+        progressBar.style.width = percentLoaded + "%";
+        progressText.textContent = percentLoaded + "%";
+      }
+    };
+
+    // Setelah File Selesai Dibaca & Dikonversi ke Base64
+    reader.onload = function(evt) {
+      try {
+        const base64Pdf = evt.target.result;
+
+        // Simpan Ke Local Storage
+        localStorage.setItem('pending_tte_pdf', base64Pdf);
+        localStorage.setItem('pending_tte_filename', file.name);
+        localStorage.setItem('pending_tte_uploader', uploaderName);
+        localStorage.setItem('pending_tte_category', docCategory);
+
+        // Otomatis Redirect ke Halaman Editor TTE (Sesuaikan nama file jika berbeda)
+        window.location.href = 'index.html';
+      } catch (err) {
+        alert("Gagal menyimpan berkas ke penyimpanan lokal browser. Pastikan ukuran file PDF tidak terlalu besar.");
+        btnSubmit.disabled = false;
+      }
+    };
+
+    reader.onerror = function() {
+      alert("Terjadi kesalahan saat membaca berkas PDF.");
+      btnSubmit.disabled = false;
+    };
+
+    // Baca Berkas Sebagai DataURL (Base64)
+    reader.readAsDataURL(file);
+  });
+</script>
+</body>
+</html>
