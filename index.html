@@ -67,7 +67,7 @@
                 <span class="hidden sm:inline">Tarik & Lepas berkas di sini, atau </span>
                 <span class="text-orange-400 underline hover:text-orange-300">Pilih Berkas PDF</span>
               </p>
-              <p class="text-[10px] sm:text-[11px] text-zinc-500 mt-1">Format PDF (Maksimal 20MB)</p>
+              <p class="text-[10px] sm:text-[11px] text-zinc-500 mt-1">Format PDF (Maksimal 10MB)</p>
             </div>
 
             <div id="file-info" class="hidden flex flex-col items-center justify-center text-center w-full">
@@ -105,118 +105,117 @@
     © UM Kendari - Sistem Tanda Tangan Elektronik
   </footer>
 
-<script>
-  const pdfInput = document.getElementById('pdf-input');
-  const uploadForm = document.getElementById('upload-form');
-  const placeholder = document.getElementById('upload-placeholder');
-  const fileInfo = document.getElementById('file-info');
-  const fileNameDisplay = document.getElementById('file-name');
-  const fileSizeDisplay = document.getElementById('file-size');
-  const progressContainer = document.getElementById('progress-container');
-  const progressBar = document.getElementById('progress-bar');
-  const progressText = document.getElementById('progress-text');
-  const btnSubmit = document.getElementById('btn-submit');
+  <script>
+    const pdfInput = document.getElementById('pdf-input');
+    const uploadForm = document.getElementById('upload-form');
+    const placeholder = document.getElementById('upload-placeholder');
+    const fileInfo = document.getElementById('file-info');
+    const fileNameDisplay = document.getElementById('file-name');
+    const fileSizeDisplay = document.getElementById('file-size');
+    const progressContainer = document.getElementById('progress-container');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const btnSubmit = document.getElementById('btn-submit');
+    const dropZone = document.getElementById('drop-zone');
 
-  // Drag and Drop Event Handling
-  const dropZone = document.getElementById('drop-zone');
+    // Drag and Drop Event Handling
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, preventDefaults, false);
+    });
 
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    dropZone.addEventListener(eventName, preventDefaults, false);
-  });
-
-  function preventDefaults(e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  dropZone.addEventListener('drop', (e) => {
-    const dt = e.dataTransfer;
-    const files = dt.files;
-    if (files.length > 0) {
-      pdfInput.files = files;
-      handleFile(files[0]);
-    }
-  });
-
-  pdfInput.addEventListener('change', function(e) {
-    if (e.target.files.length > 0) {
-      handleFile(e.target.files[0]);
-    }
-  });
-
-  function handleFile(file) {
-    if (file.type !== "application/pdf") {
-      alert("Mohon unggah berkas berformat PDF!");
-      pdfInput.value = "";
-      return;
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
 
-    // Batasi ukuran file max 10MB agar tidak melebihi kuota LocalStorage browser (5-10MB)
-    if (file.size > 10 * 1024 * 1024) {
-      alert("Ukuran berkas terlalu besar! Maksimal berkas adalah 10MB.");
-      pdfInput.value = "";
-      return;
-    }
-
-    fileNameDisplay.textContent = file.name;
-    fileSizeDisplay.textContent = (file.size / (1024 * 1024)).toFixed(2) + " MB";
-    placeholder.classList.add('hidden');
-    fileInfo.classList.remove('hidden');
-  }
-
-  uploadForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const file = pdfInput.files[0];
-    const uploaderName = document.getElementById('uploader-name').value.trim();
-    const docCategory = document.getElementById('doc-category').value;
-
-    if (!file) {
-      alert("Pilih atau jatuhkan berkas PDF terlebih dahulu!");
-      return;
-    }
-
-    btnSubmit.disabled = true;
-    progressContainer.classList.remove('hidden');
-
-    const reader = new FileReader();
-
-    // Pantau Progress Pembacaan File
-    reader.onprogress = function(evt) {
-      if (evt.lengthComputable) {
-        const percentLoaded = Math.round((evt.loaded / evt.total) * 100);
-        progressBar.style.width = percentLoaded + "%";
-        progressText.textContent = percentLoaded + "%";
+    dropZone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length > 0) {
+        pdfInput.files = files;
+        handleFile(files[0]);
       }
-    };
+    });
 
-    // Setelah File Selesai Dibaca & Dikonversi ke Base64
-    reader.onload = function(evt) {
-      try {
-        const base64Pdf = evt.target.result;
+    pdfInput.addEventListener('change', function(e) {
+      if (e.target.files.length > 0) {
+        handleFile(e.target.files[0]);
+      }
+    });
 
-        // Simpan Ke Local Storage
-        localStorage.setItem('pending_tte_pdf', base64Pdf);
-        localStorage.setItem('pending_tte_filename', file.name);
-        localStorage.setItem('pending_tte_uploader', uploaderName);
-        localStorage.setItem('pending_tte_category', docCategory);
+    function handleFile(file) {
+      if (file.type !== "application/pdf") {
+        alert("Mohon unggah berkas berformat PDF!");
+        pdfInput.value = "";
+        return;
+      }
 
-        // Otomatis Redirect ke Halaman Editor TTE (Sesuaikan nama file jika berbeda)
-        window.location.href = 'index.html';
-      } catch (err) {
-        alert("Gagal menyimpan berkas ke penyimpanan lokal browser. Pastikan ukuran file PDF tidak terlalu besar.");
+      // Batasi ukuran file max 10MB agar tidak melebihi kuota LocalStorage browser
+      if (file.size > 10 * 1024 * 1024) {
+        alert("Ukuran berkas terlalu besar! Maksimal berkas adalah 10MB.");
+        pdfInput.value = "";
+        return;
+      }
+
+      fileNameDisplay.textContent = file.name;
+      fileSizeDisplay.textContent = (file.size / (1024 * 1024)).toFixed(2) + " MB";
+      placeholder.classList.add('hidden');
+      fileInfo.classList.remove('hidden');
+    }
+
+    uploadForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const file = pdfInput.files[0];
+      const uploaderName = document.getElementById('uploader-name').value.trim();
+      const docCategory = document.getElementById('doc-category').value;
+
+      if (!file) {
+        alert("Pilih atau jatuhkan berkas PDF terlebih dahulu!");
+        return;
+      }
+
+      btnSubmit.disabled = true;
+      progressContainer.classList.remove('hidden');
+
+      const reader = new FileReader();
+
+      // Pantau Progress Pembacaan File
+      reader.onprogress = function(evt) {
+        if (evt.lengthComputable) {
+          const percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+          progressBar.style.width = percentLoaded + "%";
+          progressText.textContent = percentLoaded + "%";
+        }
+      };
+
+      // Setelah File Selesai Dibaca & Dikonversi ke Base64
+      reader.onload = function(evt) {
+        try {
+          const base64Pdf = evt.target.result;
+
+          // 1. Simpan Data Dokumen ke LocalStorage
+          localStorage.setItem('pending_tte_pdf', base64Pdf);
+          localStorage.setItem('pending_tte_filename', file.name);
+          localStorage.setItem('pending_tte_uploader', uploaderName);
+          localStorage.setItem('pending_tte_category', docCategory);
+
+          // 2. Redirect ke halaman index.html (URL GitHub Pages Anda)
+          window.location.href = 'index.html'; 
+        } catch (err) {
+          alert("Ukuran berkas terlalu besar untuk penyimpanan lokal browser. Silakan gunakan file di bawah 5-10MB.");
+          btnSubmit.disabled = false;
+        }
+      };
+
+      reader.onerror = function() {
+        alert("Terjadi kesalahan saat membaca berkas PDF.");
         btnSubmit.disabled = false;
-      }
-    };
+      };
 
-    reader.onerror = function() {
-      alert("Terjadi kesalahan saat membaca berkas PDF.");
-      btnSubmit.disabled = false;
-    };
-
-    // Baca Berkas Sebagai DataURL (Base64)
-    reader.readAsDataURL(file);
-  });
-</script>
+      // Baca Berkas Sebagai DataURL (Base64)
+      reader.readAsDataURL(file);
+    });
+  </script>
 </body>
 </html>
